@@ -8,5 +8,5 @@ export class CreateTaskInput {
   description?: string
 
   @ApiProperty()
-  dueDate: string
+  dueDate?: string
 }
