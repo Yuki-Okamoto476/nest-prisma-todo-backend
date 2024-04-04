@@ -9,8 +9,10 @@ import { DeleteTaskInput } from './dto/DeleteTaskInput';
 export class TaskService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getTasks(): Promise<Task[]> {
-    return await this.prismaService.task.findMany();
+  async getTasks(userId: string): Promise<Task[]> {
+    return await this.prismaService.task.findMany({
+      where: { userId },
+    });
   }
 
   async createTask(data: CreateTaskInput): Promise<Task> {

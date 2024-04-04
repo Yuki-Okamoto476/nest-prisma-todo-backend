@@ -10,8 +10,8 @@ import { DeleteTaskInput } from './dto/DeleteTaskInput';
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
   @Get('tasks')
-  getTasks() {
-    return this.taskService.getTasks();
+  getTasks(@Body() userId: string) {
+    return this.taskService.getTasks(userId);
   }
 
   @Post('task')
@@ -26,6 +26,6 @@ export class TaskController {
 
   @Delete('task/:id')
   deleteTask(@Body() deleteTaskInput: DeleteTaskInput) {
-    return this.taskService.deleteTask(deleteTaskInput)
+    return this.taskService.deleteTask(deleteTaskInput);
   }
 }

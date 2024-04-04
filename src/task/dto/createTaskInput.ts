@@ -9,4 +9,7 @@ export class CreateTaskInput {
 
   @ApiProperty()
   dueDate?: string
+
+  @ApiProperty()
+  userId: string
 }
