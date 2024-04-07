@@ -19,7 +19,7 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get('/:userId')
-  getTasksByUser(@Param('userId') userId: string): Promise<Task[]> {
+  getTasks(@Param('userId') userId: string): Promise<Task[]> {
     return this.taskService.getTasks(userId);
   }
 
