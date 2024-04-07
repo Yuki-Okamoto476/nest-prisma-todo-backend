@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Task } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTaskInput } from './dto/createTaskInput';
 import { UpdateTaskInput } from './dto/updateTaskInput';
-import { DeleteTaskInput } from './dto/DeleteTaskInput';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { ErrorCode } from 'src/prismaErrorCode';
 
 @Injectable()
 export class TaskService {
@@ -21,16 +22,42 @@ export class TaskService {
     });
   }
 
-  async updateTask(data: UpdateTaskInput): Promise<Task> {
-    return await this.prismaService.task.update({
-      data,
-      where: { id: data.id },
-    });
+  async updateTask(id: string, data: UpdateTaskInput): Promise<Task> {
+    try {
+      return await this.prismaService.task.update({
+        data,
+        where: { id },
+      });
+    } catch (error) {
+      if (
+        error instanceof PrismaClientKnownRequestError &&
+        error.code === ErrorCode.NOT_FOUND_CODE
+      ) {
+        throw new HttpException(
+          `Task (id:${id}) was not found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      throw error;
+    }
   }
 
-  async deleteTask(id: DeleteTaskInput): Promise<Task> {
-    return await this.prismaService.task.delete({
-      where: id,
-    });
+  async deleteTask(id: string): Promise<Task> {
+    try {
+      return await this.prismaService.task.delete({
+        where: { id },
+      });
+    } catch (error) {
+      if (
+        error instanceof PrismaClientKnownRequestError &&
+        error.code === ErrorCode.NOT_FOUND_CODE
+      ) {
+        throw new HttpException(
+          `Task (id:${id}) was not found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      throw error;
+    }
   }
 }

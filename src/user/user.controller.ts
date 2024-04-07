@@ -9,7 +9,7 @@ import { User } from '@prisma/client';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('user')
+  @Post()
   createUser(@Body() createUserInput: CreateUserInput): Promise<User> {
     return this.userService.createUser(createUserInput);
   }
