@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Task } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTaskInput } from './dto/createTaskInput';
@@ -33,10 +33,7 @@ export class TaskService {
         error instanceof PrismaClientKnownRequestError &&
         error.code === ErrorCode.NOT_FOUND_CODE
       ) {
-        throw new HttpException(
-          `Task (id:${id}) was not found`,
-          HttpStatus.NOT_FOUND,
-        );
+        throw new NotFoundException(`Task (id:${id}) was not found`);
       }
       throw error;
     }
@@ -52,10 +49,7 @@ export class TaskService {
         error instanceof PrismaClientKnownRequestError &&
         error.code === ErrorCode.NOT_FOUND_CODE
       ) {
-        throw new HttpException(
-          `Task (id:${id}) was not found`,
-          HttpStatus.NOT_FOUND,
-        );
+        throw new NotFoundException(`Task (id:${id}) was not found`);
       }
       throw error;
     }
