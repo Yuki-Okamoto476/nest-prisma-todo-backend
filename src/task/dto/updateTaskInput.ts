@@ -1,16 +1,16 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Status } from "@prisma/client";
+import { ApiProperty } from '@nestjs/swagger';
+import { Status } from '@prisma/client';
 
 export class UpdateTaskInput {
   @ApiProperty()
-  name?: string
+  name?: string;
 
   @ApiProperty()
-  description?: string
+  description?: string;
 
   @ApiProperty()
-  dueDate?: string
+  dueDate?: string;
 
   @ApiProperty()
-  status?: Status
+  status?: Status;
 }

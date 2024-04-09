@@ -1,17 +1,17 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsUUID } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsUUID } from 'class-validator';
 
 export class CreateTaskInput {
   @ApiProperty()
-  name: string
+  name: string;
 
   @ApiProperty()
-  description?: string
+  description?: string;
 
   @ApiProperty()
-  dueDate?: string
+  dueDate?: string;
 
   @IsUUID()
   @ApiProperty()
-  userId: string
+  userId: string;
 }
